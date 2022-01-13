@@ -7,12 +7,28 @@ let gridSquares, cells, color;
 
 const board = document.querySelector('#board');
 const grid = document.querySelector('#grid-area');
+const magnifier = document.getElementById('magnifier');
+const gridSize = document.querySelector('#settings > label');
+const colors = Array.from(document.querySelectorAll('#settings > section'));
+
+
+colors.forEach(color => {
+    color.addEventListener("click", changeColor);
+});
+
+function changeColor(e) {
+    color = e.target.id;
+}
+
+document.getElementById('eraser').addEventListener("click", function(e) {
+    cells.forEach(cell => cell.style.backgroundColor = "");
+})
 
 init();
+
 function init() {
     cells = [];
     gridSquares = 10;
-    color = '#000';
     createGrid();
 }
 
@@ -34,6 +50,7 @@ function render() {
         cell.style.border = '.25px solid #cacaca';
         cell.addEventListener("mouseover", draw);
     });
+    gridSize.innerHTML = magnifier.value;
 }
 
 function draw(e) {
