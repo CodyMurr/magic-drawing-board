@@ -1,34 +1,43 @@
-const SIZE_UP = 2;
-const SIZE_DOWN = 2;
-const brdW = 800;
-const brdH = 400;
+
+const brdW = 900;
+const brdH = 450;
+const minSquareSize = 15;
+const maxSquareSize = 45;
 
 let gridSquares, cells, color;
 
 const board = document.querySelector('#board');
 const grid = document.querySelector('#grid-area');
-const magnifier = document.getElementById('magnifier');
-const gridSize = document.querySelector('#settings > label');
-const colors = Array.from(document.querySelectorAll('#settings > section'));
+const randomColor = document.getElementById('random-color');
+const colors = Array.from(document.querySelectorAll('#settings > .color'));
 
+randomColor.addEventListener("click", getRandomColor);
 
 colors.forEach(color => {
-    color.addEventListener("click", changeColor);
+    color.addEventListener("click", changeColor); 
 });
 
 function changeColor(e) {
     color = e.target.id;
 }
 
-document.getElementById('eraser').addEventListener("click", function(e) {
+document.getElementById('clear').addEventListener("click", function(e) {
     cells.forEach(cell => cell.style.backgroundColor = "");
-})
+});
+
+
+function getRandomColor() {
+    const randomRed = Math.floor(Math.random() * 255);
+    const randomGreen = Math.floor(Math.random() * 255);
+    const randomBlue = Math.floor(Math.random() * 255);
+    color = `rgb(${randomRed}, ${randomGreen}, ${randomBlue})`;
+}
 
 init();
 
 function init() {
     cells = [];
-    gridSquares = 10;
+    gridSquares = minSquareSize;
     createGrid();
 }
 
@@ -50,9 +59,12 @@ function render() {
         cell.style.border = '.25px solid #cacaca';
         cell.addEventListener("mouseover", draw);
     });
-    gridSize.innerHTML = magnifier.value;
 }
 
 function draw(e) {
     e.target.style.backgroundColor = color;
 }
+
+
+
+// add html buttons to decrease/increase gridSquares variable by 2 each time one is clicked
